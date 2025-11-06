@@ -1,0 +1,46 @@
+<x-guest-layout>
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
+
+    <!-- Logo and Welcome Text -->
+    <div class="text-center">
+        <img src="{{ asset('images/Logo-PT-INKA.png') }}" alt="Logo PT INKA" class="w-25 h-20 mx-auto" />
+    </div>
+
+    <form method="POST" action="{{ route('login') }}" class="mt-8">
+        @csrf
+        <!-- Email Address -->
+        <div>
+            <x-input-label for="email" :value="__('Email Address')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
+
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                autocomplete="current-password" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
+
+        <!-- Sign In Button -->
+        <div class="mt-4">
+            <x-primary-button
+                class="w-full bg-red-600 text-white hover:bg-red-400 border-b-4 border-black flex items-center justify-center">
+                {{ __('Login') }}
+            </x-primary-button>
+        </div>
+    </form>
+
+    <!-- Register Link -->
+    <div class="text-center mt-4">
+        <p class="text-sm text-gray-600">
+            {{ __("Don't have an account?") }}
+            <a href="{{ route('register') }}" class="underline text-blue-600 hover:text-blue-800">
+                {{ __('Register!') }}
+            </a>
+        </p>
+    </div>
+</x-guest-layout>

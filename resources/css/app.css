@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.table-container {
+    max-height: 400px;
+    /* Sesuaikan tinggi maksimal sesuai kebutuhan */
+    overflow-y: auto;
+    /* Menambahkan scrollbar vertikal jika konten melebihi tinggi */
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table-container th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
