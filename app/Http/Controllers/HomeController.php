@@ -18,6 +18,8 @@ class HomeController extends Controller
             return view('seniormanager.dashboard');
         } elseif ($user->role == 'manager') {
             return view('manager.dashboard');
+        } elseif ($user->role == 'admin') {
+            return view('admin.dashboard');
         } 
     }
 }

@@ -53,6 +53,20 @@
                     class="{{ request()->is('laporan') ? 'bg-gray-700' : '' }} no-underline block px-4 py-2 mt-2 text-sm font-semibold text-white rounded-lg hover:bg-gray-700 transform transition duration-300 ease-in-out whitespace-nowrap">
                     <i class="fa-solid fa-file-export mr-2"></i> Laporan
                 </a>
+            @elseif(auth()->user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}"
+                    class="{{ request()->is('admin/dashboard') ? 'bg-gray-700' : '' }} no-underline block px-4 py-2 mt-2 text-sm font-semibold text-white rounded-lg hover:bg-gray-700 transform transition duration-300 ease-in-out">
+                    <i class="fas fa-home mr-2"></i> Dashboard
+                </a>
+                <hr class="border-2 border-gray-100">
+                <a href="{{ route('admin.users.index') }}"
+                    class="{{ request()->is('admin/users*') ? 'bg-gray-700' : '' }} no-underline block px-4 py-2 mt-2 text-sm font-semibold text-white rounded-lg hover:bg-gray-700 transform transition duration-300 ease-in-out">
+                    <i class="fas fa-users-cog mr-2"></i> Manajemen User
+                </a>
+                <a href="{{ route('admin.stats.index') }}"
+                    class="{{ request()->is('admin/stats*') ? 'bg-gray-700' : '' }} no-underline block px-4 py-2 mt-2 text-sm font-semibold text-white rounded-lg hover:bg-gray-700 transform transition duration-300 ease-in-out">
+                    <i class="fas fa-chart-bar mr-2"></i> Statistik
+                </a>
             @endif
         </nav>
     </div>

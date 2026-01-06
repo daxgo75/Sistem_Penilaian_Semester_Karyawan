@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,9 +25,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('user.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -36,7 +37,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::middleware(['role:user,manager,seniormanager,generalmanager'])->group(function () {
+Route::middleware(['role:user,manager,seniormanager,generalmanager,admin'])->group(function () {
     Route::prefix('manager')->group(function () {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('manager.dashboard');
     });
@@ -76,5 +77,21 @@ Route::middleware(['role:user,manager,seniormanager,generalmanager'])->group(fun
         Route::get('/riwayat', [LaporanController::class, 'index'])->name('laporan.riwayat');
         Route::get('/export-excel', [LaporanController::class, 'export'])->name('export.excel');
         Route::get('/cetak-pdf/{id}', [CetakPdfController::class, 'cetakPdf'])->name('cetak.pdf');
+    });
+});
+
+// Admin Routes - Manajemen User dan Role
+Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('stats')->name('stats.')->group(function () {
+        Route::get('/', [UserController::class, 'stats'])->name('index');
     });
 });
